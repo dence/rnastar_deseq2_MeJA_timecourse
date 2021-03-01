@@ -154,11 +154,17 @@
 	"star_align":
 	{
 		"time": "48:00:00",
-		"mem": "40gb",
+		"mem": "25gb",
+		"c": "24"
+	},
+	"spike_in_align":
+	{
+		"time": "48:00:00",
+		"mem": "25gb",
 		"c": "24"
 	},
 	"count_matrix":
 	{
-		"mem": "5gb"
+		"mem": "10gb"
 	}
 }

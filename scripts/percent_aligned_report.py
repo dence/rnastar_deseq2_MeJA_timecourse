@@ -66,7 +66,13 @@ matrix = matrix.transpose()
 #print(matrix.columns)
 matrix["proportion_of_library_reads_out_of_all_reads"] = \
 	matrix["Number of input reads"] / matrix["Number of input reads"].sum()
-matrix["percent_of_library_reads_mapped"] = \
+matrix["proportion_of_library_reads_mapped"] = \
 	(matrix["Uniquely mapped reads number"] + matrix["Number of reads mapped to multiple loci"]) / matrix["Number of input reads"]
-	
+matrix["sensitivity (uniquely mapped / (uniquely mapped + too many mismatches))"] = \
+	(matrix["Uniquely mapped reads number"] / (matrix["Uniquely mapped reads number"] + matrix["Number of reads unmapped: too many mismatches"]))
+matrix["specificity (unmapped:other / (ummapped:other + too many loci))"] = \
+	(matrix["Number of reads unmapped: other"] / (matrix["Number of reads unmapped: other"] + matrix["Number of reads mapped to too many loci"]))
+matrix["ratio mapped unique to multiple mapped"] = \
+	(matrix["Uniquely mapped reads number"] / matrix["Number of reads mapped to multiple loci"])
+
 matrix.to_csv(snakemake.output[0], sep="\t")

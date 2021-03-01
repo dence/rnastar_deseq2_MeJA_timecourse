@@ -1,5 +1,5 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: samples.tsv
+samples: transgenic_test_samples.17544Ri.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2,
 # strandedness). Units are technical replicates (e.g. lanes, or resequencing of the
 # same biological sample).If the column "strandedness" is present (which is optional),
@@ -9,7 +9,7 @@ samples: samples.tsv
 
 #units: Dec_2020_units.tsv
 #units: Jan_2021_units.tsv
-units: Jan_29_2021_units.tsv
+units: units.transgenic_17544Ri.tsv
 
 
 
@@ -27,11 +27,11 @@ ref:
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/v2.01_genome_annots_index"
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/t3352.cdna.v1.contig"
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9" #This was an index built on a wrong version of the improved txome. DE Jan 21, 2021
-  index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9/" #This is the correct improved txome version. DE Jan 21, 2021
-  ref_fasta: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/miami_ohio_ESTs_ptaeda_rbh/combining_PacBio_miami_of_ohio/PITA.2_01_and_PacBio_t3352.more_than_500.est_0.9"
+  index: "/blue/peter/share/genomes/improved_Ptaeda_transcriptome/STAR_aligner" #This is the correct improved txome version. DE Jan 21, 2021
+  ref_fasta: "/blue/peter/share/genomes/improved_Ptaeda_transcriptome/PITA.2_01_and_PacBio_t3352.more_than_500.est_0.9"
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
-  spike_in_index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/MeJA_time_course_experiment/rnastar_deseq2_isoseq_trial_Jan_2021/SIRV_set3_ref/"
-  spike_in_ref: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/MeJA_time_course_experiment/rnastar_deseq2_isoseq_trial_Jan_2021/SIRV_set3_ref/SIRV_ERCCs_multi-fasta_170612a.fasta"
+  spike_in_index: "/blue/peter/share/genomes/SIRV_set3_ref/STAR_aligner"
+  spike_in_ref: "/blue/peter/share/genomes/SIRV_set3_ref/SIRV_ERCCs_multi-fasta_170612a.fasta"
     #"Miami_of_Ohio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/t3352.cdna.v1.contig"
     #"PacBio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
     #"Clustered": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9"
@@ -43,15 +43,14 @@ ref:
 pca:
   labels:
     # columns of sample sheet to use for PCA
-    - tissue
-    - treatment
+    - condition
 
 diffexp:
   # contrasts for the deseq2 results method
   contrasts:
-    treated-vs-untreated:
-      - MeJAtreated
-      - MeJAcontrol
+    pWVK305-vs-17544Ri:
+      - pWVK305
+      - 17544Ri
     #cambium-vs-stem:
     #  - cambium
     #  - stem
@@ -60,7 +59,8 @@ diffexp:
 #https://github.com/alexdobin/STAR/issues/123
 params:
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000"
-  star: "--alignEndsType EndToEnd --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 2 "
+  #star: "--alignEndsType EndToEnd --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 2 "
+  star: "--alignEndsType EndToEnd  --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterMatchNmin 0 --outFilterMismatchNmax 3 "
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterMismatchNmax 2"
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 "
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 2 "

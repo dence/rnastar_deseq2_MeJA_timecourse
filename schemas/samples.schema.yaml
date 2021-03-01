@@ -15,4 +15,3 @@ properties:
 required:
   - sample
   - condition
-  - tissue

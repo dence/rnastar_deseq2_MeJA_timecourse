@@ -6,7 +6,7 @@ include: "rules/align.smk"
 include: "rules/diffexp.smk"
 include: "rules/samtools_index.smk"
 include: "rules/aligned_report.smk"
-#include: "rules/qc.smk"
+include: "rules/qc.smk"
 
 import pandas as pd
 from snakemake.utils import validate, min_version
@@ -26,9 +26,14 @@ def all_input(wildcards):
 	#			"results/diffexp/{contrast}.ma-plot.svg"],
 	#			contrast=config["diffexp"]["contrasts"]))
 	#wanted_input.extend(["results/pca.svg"])
+	wanted_input.extend(["results/counts/all.tsv"])
+	#wanted_input.extend(["results/counts/spike_in.tsv"])
 	wanted_input.extend(["results/reports/star_percent_aligned_report.txt"])
-	wanted_input.extend(["results/reports/spike_in_aligned_report.txt"])
-	wanted_input.extend(["results/reports/spike_in_coefficient_of_deviation.txt"])
+	#wanted_input.extend(["results/reports/spike_in_aligned_report.txt"])
+	#wanted_input.extend(["results/reports/spike_in_coefficient_of_deviation.txt"])
+	wanted_input.extend(
+		expand(["logs/fastqc_pre_out/{sample}-{unit}.log"],
+			sample=units["sample"],unit=units["unit"]))
 	#wanted_input.extend(["results/pca.svg","qc/multiqc_report.html"])
 	return wanted_input
 

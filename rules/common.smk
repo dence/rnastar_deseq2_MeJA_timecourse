@@ -27,7 +27,10 @@ wildcard_constraints:
 	unit="|".join(units["unit"])
 
 def is_single_end(sample, unit):
-    return pd.isnull(units.loc[(sample, unit), "fq2"])
+	return pd.isnull(units.loc[(sample, unit), "fq2"])
+
+def get_raw_fq(wildcards):
+	return units.loc[(wildcards.sample, wildcards.unit), ["fq1","fq2"]].dropna()
 
 def get_fq(wildcards):
 	if config["trimming"]["skip"]:
