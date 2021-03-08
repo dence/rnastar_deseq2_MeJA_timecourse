@@ -7,8 +7,9 @@ rule pretrim_fastqc:
 	input:
 		get_raw_fq
 	output:
-		out=directory("results/fastqc_out/pre_process/{sample}-{unit}/"),
-		log_file="logs/fastqc_pre_out/{sample}-{unit}.log"
+		out=directory("results/fastqc_out/pre_process/{sample}-{unit}/")
+		#out=directory("results/fastqc_out/pre_process/{sample}-{unit}/"),
+		#log_file="logs/fastqc_pre_out/{sample}-{unit}.log"
 	log:
 		"logs/fastqc_pre_out/{sample}-{unit}.log"
 	shell:
