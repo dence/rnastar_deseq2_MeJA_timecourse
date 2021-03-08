@@ -7,8 +7,8 @@ def get_strandness(units):
 
 rule count_matrix:
 	input:
-		bams=expand("results/star/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-		bai=expand("results/star/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam.bai", unit=units.itertuples())
+		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=units["sample"]),
+		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=units["sample"])
 	output:
 		"results/counts/all.tsv"
 	params:
@@ -21,8 +21,8 @@ rule count_matrix:
 
 rule count_matrix_with_reps:
 	input:
-		bams=expand("results/star/{unit.sample}-{unit.unit}-{unit.rep}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-		bai=expand("results/star/{unit.sample}-{unit.unit}-{unit.rep}.Aligned.sortedByCoord.out.bam.bai", unit=units.itertuples())
+		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=units["sample"]),
+		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=units["sample"])
 	output:
 		"results/counts/counts_with_reps.tsv"
 	params:

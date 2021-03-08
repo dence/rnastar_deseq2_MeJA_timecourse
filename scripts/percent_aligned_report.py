@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from scipy.stats import variation
 import re
+import logging
 
 def get_number_of_reads_in_cat(star_log_file, target_string):
 	star_log = open(star_log_file,'r')
@@ -15,11 +16,12 @@ def get_number_of_reads_in_cat(star_log_file, target_string):
 			match_list = re.findall(regex, line, flags=0)
 			return match_list[0]
 
-def get_sample_counts(star_log_file):
+def get_sample_counts(star_log_file, log_file_handle):
 
-	#print("in get sample counts")
-	#print("this is star log file")
-	#print(star_log_file)
+	log_file_handle.write("in get sample counts\n")
+	log_file_handle.write("this is star log file\n")
+	log_file_handle.write(star_log_file)
+	log_file_handle.write("\n")
 
 	curr_file_counts = []
 	target_strings = ["Number of input reads",
@@ -38,32 +40,41 @@ def get_sample_counts(star_log_file):
 	counts = counts.transpose()
 	counts.columns=target_strings
 	counts = counts.transpose()
-
+	print("This is counts at the end of get_sample_counts")
+	print(str(counts))
+	print("\n")
 	return counts
 
 ############################################################
-star_logs = np.unique(snakemake.input)
-#print("Passing this to get_sample_counts")
-#print(star_logs)
-#print(len(star_logs))
-counts = [get_sample_counts(f)
+
+star_logs = snakemake.input
+script_log = snakemake.log
+#print("What is log?\t" + str(script_log))
+log_file = open(str(script_log),"w")
+
+log_file.write("Passing this to get_sample_counts")
+log_file.write(str(star_logs))
+log_file.write("\n")
+log_file.write(str(len(star_logs)))
+log_file.write("\n")
+counts = [get_sample_counts(f, log_file)
 			for f in star_logs]
 
 samples = snakemake.params.samples
-#print("checking sample order in the python script")
-#print(samples)
-for t, sample in zip(counts, samples):
+log_file.write("checking sample order in the python script")
+log_file.write(str(samples))
+for t, sample in zip(counts, star_logs):
 	t.columns = [sample]
-#print("checking sample order in the python script after the zip")
-#for t in counts:
-#	print(t.columns)
+log_file.write("\nchecking sample order in the python script after the zip")
+for t in counts:
+	log_file.write(str(t.columns))
 matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
-#print(matrix.columns)
+log_file.write(str(matrix.columns))
 matrix = matrix.groupby(matrix.columns, axis=1).sum()
 matrix = matrix.transpose()
-#print("Checking columns in matrix")
-#print(matrix.columns)
+log_file.write("Checking columns in matrix")
+log_file.write(str(matrix.columns))
 matrix["proportion_of_library_reads_out_of_all_reads"] = \
 	matrix["Number of input reads"] / matrix["Number of input reads"].sum()
 matrix["proportion_of_library_reads_mapped"] = \

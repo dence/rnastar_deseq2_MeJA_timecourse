@@ -1,6 +1,16 @@
 #Daniel Ence
 #oct. 8, 2020
 
+rule samtools_index_merged_bam:
+	input:
+		"results/merged_lane_bams/{sample}.merged.bam"
+	output:
+		"results/merged_lane_bams/{sample}.merged.bam.bai"
+	log:
+		"logs/merged/{sample}.samtools_index.log"
+	shell:
+		"unset TMPDIR; module load samtools samtools index {input}"
+
 rule samtools_index:
 	input:
 		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"

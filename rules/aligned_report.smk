@@ -10,6 +10,8 @@ rule get_aligned_report:
 		"results/reports/star_percent_aligned_report.txt"
 	params:
 		samples=samples["sample"].tolist()
+	log:
+		"logs/reports/star_percent_aligned_report.log"
 	script:
 		"../scripts/percent_aligned_report.py"
 
