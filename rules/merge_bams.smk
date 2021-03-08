@@ -1,7 +1,7 @@
 rule merge_lane:
 	input:
 		Lane1_bam="results/star/{sample}-Lane_1.Aligned.sortedByCoord.out.bam",
-		Lane3_bam="results/star/{sample}-Lane_2.Aligned.sortedByCoord.out.bam",
+		Lane2_bam="results/star/{sample}-Lane_2.Aligned.sortedByCoord.out.bam",
 		Lane3_bam="results/star/{sample}-Lane_3.Aligned.sortedByCoord.out.bam"
 	output:
 		"results/merged_lane_bams/{sample}.merged.bam"

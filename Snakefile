@@ -7,6 +7,7 @@ include: "rules/diffexp.smk"
 include: "rules/samtools_index.smk"
 include: "rules/aligned_report.smk"
 include: "rules/qc.smk"
+include: "rules/merge_bams.smk"
 
 import pandas as pd
 from snakemake.utils import validate, min_version
