@@ -9,7 +9,7 @@ rule samtools_index_merged_bam:
 	log:
 		"logs/merged/{sample}.samtools_index.log"
 	shell:
-		"unset TMPDIR; module load samtools samtools index {input}"
+		"unset TMPDIR; module load samtools; samtools index {input}"
 
 rule samtools_index:
 	input:
