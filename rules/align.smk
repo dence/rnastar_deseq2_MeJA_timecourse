@@ -5,7 +5,7 @@ rule rRNA_align:
 		fastq1="results/trimmed/{sample}-{unit}.1.fastq.gz",
 		fastq2="results/trimmed/{sample}-{unit}.2.fastq.gz"
 	output:
-		bam="results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+		temp("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam"),
 		star_output="results/star_rRNA/{sample}-{unit}.Log.final.out"
 	log:
 		"logs/star_rRNA/{sample}-{unit}.log"
@@ -26,7 +26,7 @@ rule spike_in_align:
 		fastq1="results/trimmed/{sample}-{unit}.1.fastq.gz",
 		fastq2="results/trimmed/{sample}-{unit}.2.fastq.gz"
 	output:
-		bam="results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+		bam="results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam", #make temp
 		star_output="results/star_spike_in/{sample}-{unit}.Log.final.out"
 	log:
 		"logs/spike_in_align/{sample}-{unit}.log"
@@ -58,7 +58,7 @@ rule star_align:
 		index=config["ref"]["index"],
         # optional parameters
 		extra=config["params"]["star"]
-	threads: 24
+	threads: 5
 	shell:
 		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
 		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +

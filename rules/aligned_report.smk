@@ -25,6 +25,16 @@ rule get_aligned_spike_report:
 	script:
 		"../scripts/percent_aligned_report.py"
 
+rule get_aligned_rRNA_report:
+	input:
+		expand("results/star_rRNA/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
+	output:
+		"results/reports/rRNA_aligned_report.txt"
+	params:
+		samples=samples["sample"].tolist()
+	script:
+		"../scripts/percent_aligned_report.py"
+
 rule count_matrix_spike_in:
 	input:
 		bams=expand("results/star_spike_in/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),

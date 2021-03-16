@@ -3,9 +3,8 @@
 		"time": "24:00:00",
 		"N": "1",
 		"mem": "1gb",
-		"partition": "hpg1-compute",
 		"c": "1",
-		"qos": "kirst-b"
+		"qos": "peter"
 	},
 	"deseq2_init":
 	{
@@ -21,7 +20,7 @@
 		"N": "1",
 		"c": "10",
 		"mem": "70gb",
-		"qos": "kirst"
+		"qos": "peter"
 	},
 	"dump_accessions" :
 	{
@@ -121,7 +120,7 @@
 		"time": "00:10:00",
 		"c": "1",
 		"mem": "50mb",
-		"qos": "kirst-b"
+		"qos": "peter"
 	},
 	"soapdenovo":
 	{
@@ -155,13 +154,19 @@
 	{
 		"time": "48:00:00",
 		"mem": "25gb",
-		"c": "24"
+		"c": "5"
+	},
+	"rRNA_align":
+	{
+		"time": "48:00:00",
+		"mem": "25gb",
+		"c": "5"
 	},
 	"spike_in_align":
 	{
 		"time": "48:00:00",
 		"mem": "25gb",
-		"c": "24"
+		"c": "5"
 	},
 	"count_matrix":
 	{

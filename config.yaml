@@ -1,5 +1,5 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: transgenic_test_samples.17544Ri.tsv
+samples: samples.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2,
 # strandedness). Units are technical replicates (e.g. lanes, or resequencing of the
 # same biological sample).If the column "strandedness" is present (which is optional),
@@ -9,7 +9,7 @@ samples: transgenic_test_samples.17544Ri.tsv
 
 #units: Dec_2020_units.tsv
 #units: Jan_2021_units.tsv
-units: units.transgenic_17544Ri.tsv
+units: units.tsv
 
 
 
