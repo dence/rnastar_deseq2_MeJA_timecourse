@@ -11,7 +11,7 @@ rule rRNA_align:
 		"logs/star_rRNA/{sample}-{unit}.log"
 	params:
 		star_prefix="results/star_rRNA/{sample}-{unit}.",
-		index=config["ref"]["index"],
+		index=config["ref"]["rRNA_index"],
 		extra=config["params"]["star"]
 	threads:
 		10

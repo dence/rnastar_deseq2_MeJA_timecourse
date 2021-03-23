@@ -61,6 +61,7 @@ counts = [get_sample_counts(f, log_file)
 			for f in star_logs]
 
 samples = snakemake.params.samples
+units = snakemake.params.units
 log_file.write("checking sample order in the python script")
 log_file.write(str(samples))
 for t, sample in zip(counts, star_logs):

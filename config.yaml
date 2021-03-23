@@ -1,5 +1,5 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: samples.tsv
+samples: test.samples.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2,
 # strandedness). Units are technical replicates (e.g. lanes, or resequencing of the
 # same biological sample).If the column "strandedness" is present (which is optional),
@@ -7,9 +7,7 @@ samples: samples.tsv
 # protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse`
 # which is referenced in STAR manual section 7, "Counting number of reads per gene".
 
-#units: Dec_2020_units.tsv
-#units: Jan_2021_units.tsv
-units: units.tsv
+units: test.units.tsv
 
 
 
@@ -32,6 +30,8 @@ ref:
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
   spike_in_index: "/blue/peter/share/genomes/SIRV_set3_ref/STAR_aligner"
   spike_in_ref: "/blue/peter/share/genomes/SIRV_set3_ref/SIRV_ERCCs_multi-fasta_170612a.fasta"
+  rRNA_index: "/blue/peter/share/genomes/Ptaeda_rRNAs/STAR_aligner"
+  rRNA_fasta: "/blue/peter/share/genomes/Ptaeda_rRNAs/Ptaeda_NCBI_rRNAs.fasta"
     #"Miami_of_Ohio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/t3352.cdna.v1.contig"
     #"PacBio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
     #"Clustered": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9"

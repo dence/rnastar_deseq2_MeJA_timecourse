@@ -9,7 +9,8 @@ rule get_aligned_report:
 	output:
 		"results/reports/star_percent_aligned_report.txt"
 	params:
-		samples=samples["sample"].tolist()
+		samples=samples["sample"].tolist(),
+		units=units["unit"].tolist()
 	log:
 		"logs/reports/star_percent_aligned_report.log"
 	script:
@@ -21,7 +22,8 @@ rule get_aligned_spike_report:
 	output:
 		"results/reports/spike_in_aligned_report.txt"
 	params:
-		samples=samples["sample"].tolist()
+		samples=samples["sample"].tolist(),
+		units=units["unit"].tolist()
 	script:
 		"../scripts/percent_aligned_report.py"
 
@@ -31,23 +33,12 @@ rule get_aligned_rRNA_report:
 	output:
 		"results/reports/rRNA_aligned_report.txt"
 	params:
-		samples=samples["sample"].tolist()
+		samples=samples["sample"].tolist(),
+		units=units["unit"].tolist()
+	log:
+		"logs/reports/rRNA_star_percent_aligned_report.log"
 	script:
 		"../scripts/percent_aligned_report.py"
-
-rule count_matrix_spike_in:
-	input:
-		bams=expand("results/star_spike_in/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-		bai=expand("results/star_spike_in/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam.bai", unit=units.itertuples())
-	output:
-		"results/counts/spike_in.tsv"
-	params:
-		samples=units["sample"].tolist(),
-		ref=config["ref"]["spike_in_index"]
-	conda:
-		"../envs/pandas.yaml"
-	script:
-		"../scripts/count-matrix-bams.py"
 
 rule get_spike_in_coefficient_of_deviation_report:
 	input:
