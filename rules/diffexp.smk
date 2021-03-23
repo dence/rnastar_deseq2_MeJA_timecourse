@@ -27,7 +27,10 @@ rule count_matrix_with_reps:
 		"results/counts/counts_with_reps.tsv"
 	params:
 		samples=units["sample"].tolist(),
+		units=units["unit"].tolist(),
 		ref=config["ref"]["index"]
+	log:
+		"logs/counts/count_matrix_with_reps.log"
 	conda:
 		"../envs/pandas.yaml"
 	script:

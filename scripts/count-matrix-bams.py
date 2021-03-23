@@ -37,18 +37,30 @@ counts = [get_sample_counts(f, snakemake.params.ref)
 			for f in bam_files]
 
 samples = snakemake.params.samples
-print("checking sample order in the python script")
-print(samples)
-for t, sample in zip(counts, samples):
+units = snakemake.params.units
+
+script_log = snakemake.log
+log_file = open(str(script_log),"w")
+
+sample_units = []
+for sample, unit in zip(samples, units):
+	sample_units.append(sample + "_" + unit)
+	log_file.write("Made this sample-unit pair")
+	log_file.write(sample + "_" + unit)
+
+log_file.write("checking sample order in the python script")
+log_file.write(str(samples))
+for t, sample in zip(counts, sample_units):
 	t.columns = [sample]
-print("checking sample order in the python script after the zip")
+log_file.write("checking sample order in the python script after the zip")
 for t in counts:
 	print(t.columns)
 matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
-print("Checking columns in matrix before groupby")
-print(matrix.columns)
+log_file.write("Checking columns in matrix before groupby")
+log_file.write(str(matrix.columns))
 matrix = matrix.groupby(matrix.columns, axis=1).sum()
-print("Checking columns in matrix")
-print(matrix.columns)
+#matrix = matrix.groupby(matrix.columns, axis=1)
+log_file.write("Checking columns in matrix")
+log_file.write(str(matrix.columns))
 matrix.to_csv(snakemake.output[0], sep="\t")
