@@ -21,8 +21,8 @@ rule count_matrix:
 
 rule count_matrix_with_reps:
 	input:
-		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=units["sample"]),
-		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=units["sample"])
+		bams=expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
+		bai=expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
 	output:
 		"results/counts/counts_with_reps.tsv"
 	params:

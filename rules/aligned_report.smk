@@ -24,6 +24,8 @@ rule get_aligned_spike_report:
 	params:
 		samples=samples["sample"].tolist(),
 		units=units["unit"].tolist()
+	log:
+		"logs/reports/spike_in_star_percent_aligned_report.log"
 	script:
 		"../scripts/percent_aligned_report.py"
 
