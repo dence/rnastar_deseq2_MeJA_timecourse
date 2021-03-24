@@ -14,6 +14,8 @@ rule count_matrix:
 	params:
 		samples=units["sample"].tolist(),
 		ref=config["ref"]["index"]
+	log:
+		"logs/counts/count_matrix.log"
 	conda:
 		"../envs/pandas.yaml"
 	script:

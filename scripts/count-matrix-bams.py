@@ -36,21 +36,24 @@ bam_files = snakemake.input.bams
 counts = [get_sample_counts(f, snakemake.params.ref)
 			for f in bam_files]
 
-samples = snakemake.params.samples
-units = snakemake.params.units
-
 script_log = snakemake.log
 log_file = open(str(script_log),"w")
 
-sample_units = []
-for sample, unit in zip(samples, units):
-	sample_units.append(sample + "_" + unit)
-	log_file.write("Made this sample-unit pair")
-	log_file.write(sample + "_" + unit)
+samples = snakemake.params.samples
+if(hasattr(snakemake.params, 'units')):
+	units = snakemake.params.units
+	tmp_samples = []
+	for sample, unit in zip(samples, units):
+		tmp_samples.append(sample + "_" + unit)
+		log_file.write("Made this sample-unit pair")
+		log_file.write(sample + "_" + unit)
+	samples = tmp_samples
+
+
 
 log_file.write("checking sample order in the python script")
 log_file.write(str(samples))
-for t, sample in zip(counts, sample_units):
+for t, sample in zip(counts, samples):
 	t.columns = [sample]
 log_file.write("checking sample order in the python script after the zip")
 for t in counts:
