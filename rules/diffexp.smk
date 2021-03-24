@@ -21,6 +21,40 @@ rule count_matrix:
 	script:
 		"../scripts/count-matrix-bams.py"
 
+rule count_matrix_spike_in:
+	input:
+		bams=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
+		bai=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
+	output:
+		"results/counts/spike_in.counts.tsv"
+	params:
+		samples=units["sample"].tolist(),
+		units=units["unit"].tolist(),
+		ref=config["ref"]["spike_in_index"]
+	log:
+		"logs/counts/spike_in.count_matrix.log"
+	conda:
+		"../envs/pandas.yaml"
+	script:
+		"../scripts/count-matrix-bams.py"
+
+rule count_matrix_rRNA:
+	input:
+		bams=expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
+		bai=expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
+	output:
+		"results/counts/rRNA.counts.tsv"
+	params:
+		samples=units["sample"].tolist(),
+		units=units["unit"].tolist(),
+		ref=config["ref"]["rRNA_index"]
+	log:
+		"logs/counts/rRNA.count_matrix.log"
+	conda:
+		"../envs/pandas.yaml"
+	script:
+		"../scripts/count-matrix-bams.py"
+
 rule count_matrix_with_reps:
 	input:
 		bams=expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
@@ -37,7 +71,6 @@ rule count_matrix_with_reps:
 		"../envs/pandas.yaml"
 	script:
 		"../scripts/count-matrix-bams.py"
-
 
 def get_deseq2_threads(wildcards=None):
 	# https://twitter.com/mikelove/status/918770188568363008

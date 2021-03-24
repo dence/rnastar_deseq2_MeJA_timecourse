@@ -20,7 +20,7 @@ rule get_aligned_spike_report:
 	input:
 		expand("results/star_spike_in/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
 	output:
-		"results/reports/spike_in_aligned_report.txt"
+		"results/reports/spike_in_percent_aligned.tsv"
 	params:
 		samples=samples["sample"].tolist(),
 		units=units["unit"].tolist()
@@ -33,7 +33,7 @@ rule get_aligned_rRNA_report:
 	input:
 		expand("results/star_rRNA/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
 	output:
-		"results/reports/rRNA_aligned_report.txt"
+		"results/reports/rRNA_percent_aligned_report.txt"
 	params:
 		samples=samples["sample"].tolist(),
 		units=units["unit"].tolist()
