@@ -17,13 +17,15 @@ tc = subset(all, select = c(1,143:407)) # timecourse (88 samples x 3 lanes per s
 # Rename with trt and controls for each experiment
 
 # transgenics
-vc = c("277", "278", "279", "280") # pWVK305 samples (vector controls)
+vc = c("277-L1","277-L2","277-L3","278-L1","278-L2","278-L3","279-L1","279-L2","279-L3","280-L1","280-L2","280-L3") # pWVK305 samples (vector controls)
 names(trg) <- ifelse(names(trg) %in% vc ,paste("CTL", colnames(trg), sep = "_"),paste("TRT", colnames(trg), sep = "_"))
 names(trg)[1] <- "genes"
 
 # timecourse
-controls = c("M2","M21","M23","M34","M36","M49","M54",
-             "M59","M71","M76","M8","M80","M86","M90","M94") # All control days are compiled
+controls = c("M2-L1","M2-L2","M2-L3","M21-L1","M21-L2","M21-L3","M23-L1","M23-L2","M23-L3","M34-L1","M34-L2","M34-L3",
+             "M36-L1","M36-L2","M36-L3","M49-L1","M49-L2","M49-LL3","M54-L1","M54-L2","M54-L3","M59-L1","M59-L2",
+             "M59-L3","M71-L1","M71-L2","M71-L3","M76-L1","M76-L2","M76-L3","M8-L1","M8-L2","M8-L3","M80-L1","M80-L2","M80-L3",
+             "M86-L1","M86-L2","M86-L3","M90-L1","M90-L2","M90-L3","M94-L1","M94-L2","M94-L3") # All control days are compiled
 names(tc) <- ifelse(names(tc) %in% controls, paste("CTL", colnames(tc), sep = "_"), paste("TRT", colnames(test), sep = "_"))
 names(tc)[1] <- "genes"
 
