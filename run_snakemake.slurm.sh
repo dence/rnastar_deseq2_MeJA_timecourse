@@ -5,7 +5,7 @@
 #SBATCH --nodes=1                    # Use one node
 #SBATCH --ntasks=1                   # Run a single task
 #SBATCH --cpus-per-task=1            # Number of CPU cores per task
-#SBATCH --mem=1gb                  # Total memory limit
+#SBATCH --mem=15gb                  # Total memory limit
 #SBATCH --time=192:00:00              # Time limit hrs:min:sec
 #SBATCH --output=timecourse_%j.out     # Standard output and error log
 #SBATCH --qos=peter

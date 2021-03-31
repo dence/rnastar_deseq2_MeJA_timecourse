@@ -2,7 +2,7 @@
 	"__default__": {
 		"time": "24:00:00",
 		"N": "1",
-		"mem": "1gb",
+		"mem": "5gb",
 		"c": "1",
 		"qos": "peter"
 	},
