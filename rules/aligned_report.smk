@@ -5,12 +5,12 @@ from scipy.stats import variation
 
 rule get_aligned_report:
 	input:
-		expand("results/star/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
+        unique("results/star/{sample}-{unit}.Log.final.out")
 	output:
 		"results/reports/star_percent_aligned_report.txt"
 	params:
-		samples=samples["sample"].tolist(),
-		units=units["unit"].tolist()
+		samples=unique(samples["sample"].tolist()),
+		units=unique(units["unit"].tolist())
 	log:
 		"logs/reports/star_percent_aligned_report.log"
 	script:
