@@ -3,16 +3,22 @@
 # erccdashboard
 
 library(erccdashboard)
+library(tidyverse)
 
-# Import spike_in.counts.tsv file
-all <- read.delim("/blue/peter/mallory.morgan/rnastar_deseq2_MeJA_timecourse/results/counts/spike_in.counts.tsv")
+# Talk to snakemake rule
+
+args=commandArgs(trailingOnly=TRUE)
+all=args[1]
+log=args[2]
+output=[3]
 
 # Remove "sample_" and replace with ""
 names(all) = gsub(pattern = "sample_*", replacement = "", x = names(all))
 
 # Subset files into two experiments ###CHANGE THIS IF INTERMIXED###
+
 trg = subset(all, select = c(1:142)) # transgenics (47 samples x 3 lanes per sample)
-tc = subset(all, select = c(1,143:407)) # timecourse (88 samples x 3 lanes per sample)
+tc = subset(all, select = c(1,143:406)) # timecourse (88 samples x 3 lanes per sample)
 
 # Rename with trt and controls for each experiment
 
@@ -31,15 +37,37 @@ names(tc)[1] <- "genes"
 
 # transgenic analysis
 
-exDat <- runDashboard(datType = "count", isNorm = FALSE, exTable = trg,
-                      filenameRoot = "transgenic", sample1Name = "TRT", sample2Name = "CTL",
-                      erccmix = "Single", erccdilution = 1/1000, spikeVol = 1, totalRNAmass = 0.05,
-                      choseFDR = 0.05)
+exDat.trg <- initDat(datType = "count", isNorm = FALSE, exTable = trg,
+                 filenameRoot = "transgenic",
+                 sample1Name = "TRT", sample2Name = "CTL",
+                 erccmix = "Single", erccdilution = 1/1000, spikeVol = 4.95,
+                 totalRNAmass = 0.05, choseFDR = 0.05)
+exDat.trg <- est_r_m(exDat.trg)
+exDat.trg <- dynRangePlot(exDat.trg)
+saveERCCPlots(exDat.trg, plotsPerPg = "single",saveas = "pdf")
+cat("\nSaving exDat list to .RData file...")
+nam <- paste(exDat.trg$sampleInfo$filenameRoot, "exDat.trg", sep = ".")
+assign(nam, exDat.trg)
+to.save <- ls()
+saveName <- paste0(exDat.trg$sampleInfo$filenameRoot, ".RData")
+save(list = to.save[grepl(pattern = nam, x = to.save)], file = saveName)
+cat("\nAnalysis completed.")
+
 # timecourse
-exDat <- runDashboard(datType = "count", isNorm = FALSE, exTable = tc,
+exDat.tc <- initDat(datType = "count", isNorm = FALSE, exTable = tc,
                       filenameRoot = "timecourse", sample1Name = "TRT", sample2Name = "CTL",
-                      erccmix = "Single", erccdilution = 1/1000, spikeVol = 1, totalRNAmass = 0.05,
+                      erccmix = "Single", erccdilution = 1/1000, spikeVol = 4.95, totalRNAmass = 0.05,
                       choseFDR = 0.05)
+exDat.tc <- est_r_m(exDat.tc)
+exDat.tc<- dynRangePlot(exDat.tc)
+saveERCCPlots(exDat.tc, plotsPerPg = "single",saveas = "pdf")
+cat("\nSaving exDat list to .RData file...")
+nam <- paste(exDat.tc$sampleInfo$filenameRoot, "exDat.tc", sep = ".")
+assign(nam, exDat.tc)
+to.save <- ls()
+saveName <- paste0(exDat.tc$sampleInfo$filenameRoot, ".RData")
+save(list = to.save[grepl(pattern = nam, x = to.save)], file = saveName)
+cat("\nAnalysis completed.")
 
 # datType = "count" # "count" for RNA-Seq data, "array" for microarray data
 # isNorm = FALSE # flag to indicate if input expression measures are already
