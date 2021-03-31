@@ -2,15 +2,20 @@
 #December 21, 2020
 
 from scipy.stats import variation
+import numpy as np
 
 rule get_aligned_report:
 	input:
-        unique("results/star/{sample}-{unit}.Log.final.out")
+		samples=np.unique(
+		expand("results/star/{sample}-{unit}.Log.final.out",
+				sample=units["sample"].tolist(),unit=units["unit"].tolist())).tolist()
+		#samples=expand("results/star/{sample}-{unit}.Log.final.out",sample=units["sample"].tolist(),unit=units["unit"].tolist())
+
 	output:
 		"results/reports/star_percent_aligned_report.txt"
 	params:
-		samples=unique(samples["sample"].tolist()),
-		units=unique(units["unit"].tolist())
+		samples=np.unique(samples["sample"].tolist()).tolist(),
+		units=np.unique(units["unit"].tolist()).tolist()
 	log:
 		"logs/reports/star_percent_aligned_report.log"
 	script:
