@@ -23,12 +23,12 @@ rule get_aligned_report:
 
 rule get_aligned_spike_report:
 	input:
-		expand("results/star_spike_in/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
+		np.unique(expand("results/star_spike_in/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])).tolist()
 	output:
 		"results/reports/spike_in_percent_aligned.tsv"
 	params:
-		samples=samples["sample"].tolist(),
-		units=units["unit"].tolist()
+		samples=np.unique(samples["sample"].tolist()).tolist(),
+		units=np.unique(units["unit"].tolist())
 	log:
 		"logs/reports/spike_in_star_percent_aligned_report.log"
 	script:
@@ -36,12 +36,12 @@ rule get_aligned_spike_report:
 
 rule get_aligned_rRNA_report:
 	input:
-		expand("results/star_rRNA/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])
+		np.unique(expand("results/star_rRNA/{sample}-{unit}.Log.final.out",sample=units["sample"],unit=units["unit"])).tolist()
 	output:
 		"results/reports/rRNA_percent_aligned_report.txt"
 	params:
-		samples=samples["sample"].tolist(),
-		units=units["unit"].tolist()
+		samples=np.unique(amples["sample"].tolist()).tolist(),
+		units=np.unique(units["unit"].tolist())
 	log:
 		"logs/reports/rRNA_star_percent_aligned_report.log"
 	script:
