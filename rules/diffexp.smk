@@ -5,6 +5,8 @@ def get_strandness(units):
 		strand_list=["none"]
 		return strand_list*units.shape[0]
 
+import numpy as np
+
 rule count_matrix:
 	input:
 		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=units["sample"]),
@@ -23,8 +25,14 @@ rule count_matrix:
 
 rule count_matrix_spike_in:
 	input:
-		bams=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
-		bai=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
+		bams=np.unique(
+		expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+				sample=units["sample"].tolist(),unit=units["unit"].tolist())).tolist(),
+		#bams=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
+		bai=np.unique(
+		expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai",
+				sample=units["sample"].tolist(),unit=units["unit"].tolist())).tolist()
+		#bai=expand("results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
 	output:
 		"results/counts/spike_in.counts.tsv"
 	params:

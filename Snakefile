@@ -19,28 +19,31 @@ min_version("5.1.2")
 def all_input(wildcards):
 	wanted_input = []
 
-	#wanted_input.extend(
-		#expand(["results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
-			#sample=units["sample"],unit=units["unit"]))
+	wanted_input.extend(
+		expand(["results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
+			sample=units["sample"],unit=units["unit"]))
 	wanted_input.extend(
 		expand(["results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
 			sample=units["sample"],unit=units["unit"]))
-	wanted_input.extend(
-		expand(["results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
-			sample=units["sample"],unit=units["unit"]))
+	#wanted_input.extend(
+		#expand(["results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
+		#sample=units["sample"],unit=units["unit"]))
 	#wanted_input.extend(
 	#		expand(["results/diffexp/{contrast}.diffexp.tsv",
 	#			"results/diffexp/{contrast}.ma-plot.svg"],
 	#			contrast=config["diffexp"]["contrasts"]))
 	#wanted_input.extend(["results/pca.svg"])
 	#wanted_input.extend(["results/counts/all.tsv"])
-	wanted_input.extend(["results/counts/spike_in.tsv"])
-	wanted_input.extend(["results/reports/star_percent_aligned_report.txt"])
-	wanted_input.extend(["results/reports/spike_in_aligned_report.txt"])
+	#wanted_input.extend(["results/counts/spike_in.counts.tsv"])
+	#wanted_input.extend(["results/reports/star_percent_aligned_report.txt"])
+	#wanted_input.extend(["results/reports/spike_in_percent_aligned.tsv"])
+	wanted_input.extend(["results/counts/rRNA.counts.tsv"])
+	wanted_input.extend(["results/reports/star_rRNA_percent_aligned.tsv"])
+	wanted_input.extend(["results/counts/counts_with_reps.tsv"])
 	#wanted_input.extend(["results/reports/spike_in_coefficient_of_deviation.txt"])
-	wanted_input.extend(
-		expand(["logs/fastqc_pre_out/{sample}-{unit}.log"],
-			sample=units["sample"],unit=units["unit"]))
+	#wanted_input.extend(
+		#expand(["logs/fastqc_pre_out/{sample}-{unit}.log"],
+			#sample=units["sample"],unit=units["unit"]))
 	#wanted_input.extend(["results/pca.svg","qc/multiqc_report.html"])
 	return wanted_input
 
