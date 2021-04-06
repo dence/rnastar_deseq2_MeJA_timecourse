@@ -9,8 +9,8 @@ import numpy as np
 
 rule count_matrix:
 	input:
-		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=units["sample"]),
-		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=units["sample"])
+		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=np.unique(units["sample"]).tolist()),
+		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=np.unique(units["sample"]).tolist())
 	output:
 		"results/counts/all.tsv"
 	params:
@@ -48,8 +48,8 @@ rule count_matrix_spike_in:
 
 rule count_matrix_rRNA:
 	input:
-		bams=expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
-		bai=expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
+		bams=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]).tolist()),
+		bai=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"]).tolist())
 	output:
 		"results/counts/rRNA.counts.tsv"
 	params:
@@ -65,8 +65,8 @@ rule count_matrix_rRNA:
 
 rule count_matrix_with_reps:
 	input:
-		bams=expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]),
-		bai=expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])
+		bams=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]).tolist()),
+		bai=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"]).tolist())
 	output:
 		"results/counts/counts_with_reps.tsv"
 	params:
