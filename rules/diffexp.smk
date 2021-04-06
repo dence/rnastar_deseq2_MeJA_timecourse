@@ -48,8 +48,8 @@ rule count_matrix_spike_in:
 
 rule count_matrix_rRNA:
 	input:
-		bams=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]).tolist()),
-		bai=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"]).tolist())
+		bams=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"])).tolist(),
+		bai=np.unique(expand("results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])).tolist()
 	output:
 		"results/counts/rRNA.counts.tsv"
 	params:
@@ -65,8 +65,8 @@ rule count_matrix_rRNA:
 
 rule count_matrix_with_reps:
 	input:
-		bams=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"]).tolist()),
-		bai=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"]).tolist())
+		bams=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"])).tolist(),
+		bai=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])).tolist()
 	output:
 		"results/counts/counts_with_reps.tsv"
 	params:
