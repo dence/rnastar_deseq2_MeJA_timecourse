@@ -21,6 +21,16 @@ rule samtools_index:
 	shell:
 		"unset TMPDIR; module load samtools; samtools index {input}"
 
+rule samtools_rRNA_index:
+	input:
+		"results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
+	output:
+		"results/star_rRNA/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai"
+	log:
+		"logs/star_star_rRNA_index.{sample}-{unit}.log"
+	shell:
+		"unset TMPDIR; module load samtools; samtools index {input}"
+		
 rule samtools_spikein_index:
 	input:
 		"results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
