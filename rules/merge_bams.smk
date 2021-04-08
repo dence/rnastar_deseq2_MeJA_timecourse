@@ -4,7 +4,7 @@ rule merge_lane:
 		Lane2_bam="results/star/{sample}-L2.Aligned.sortedByCoord.out.bam",
 		Lane3_bam="results/star/{sample}-L3.Aligned.sortedByCoord.out.bam"
 	output:
-		temp("results/merged_lane_bams/{sample}.merged.bam")
+		"results/merged_lane_bams/{sample}.merged.bam"
 	log:
 		"logs/picard_merge_sam_files/{sample}.log"
 	shell:
