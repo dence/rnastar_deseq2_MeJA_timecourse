@@ -7,21 +7,21 @@ def get_strandness(units):
 
 import numpy as np
 
-rule count_matrix:
-	input:
-		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=np.unique(units["sample"]).tolist()),
-		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=np.unique(units["sample"]).tolist())
-	output:
-		"results/counts/all.tsv"
-	params:
-		samples=units["sample"].tolist(),
-		ref=config["ref"]["index"]
-	log:
-		"logs/counts/count_matrix.log"
-	conda:
-		"../envs/pandas.yaml"
-	script:
-		"../scripts/count-matrix-bams.py"
+#rule count_matrix:
+#	input:
+#		bams=expand("results/merged_lane_bams/{sample}.merged.bam", sample=np.unique(units["sample"]).tolist()),
+#		bai=expand("results/merged_lane_bams/{sample}.merged.bam.bai", sample=np.unique(units["sample"]).tolist())
+#	output:
+#		"results/counts/all.tsv"
+#	params:
+#		samples=units["sample"].tolist(),
+#		ref=config["ref"]["index"]
+#	log:
+#		"logs/counts/count_matrix.log"
+#	conda:
+#		"../envs/pandas.yaml"
+#	script:
+#		"../scripts/count-matrix-bams.py"
 
 rule count_matrix_spike_in:
 	input:
@@ -104,6 +104,21 @@ rule deseq2_init:
 		"""
 		module load R;
 		Rscript ../scripts/deseq2-init.R {input.counts} {output} {params.samples} {log} {threads}
+		"""
+
+rule count_matrix:
+	input:
+		"results/counts/counts_with_reps.tsv"
+	output:
+		"results/counts/all.tsv"
+	params:
+		sample_file=config["samples"]
+	log:
+		"logs/counts/count_matrix_all.log"
+	shell:
+		"""
+		#module load R;
+		Rscript scripts/count-matrix-all.R {input} {params} {output} {log}
 		"""
 
 rule pca:
