@@ -68,17 +68,26 @@ rule count_matrix_with_reps:
 		bams=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"])).tolist(),
 		bai=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai", sample=units["sample"],unit=units["unit"])).tolist()
 	output:
-		"results/counts/counts_with_reps.tsv"
+		"results/htseq-counts/{sample}-{unit}.htseq-counts.tsv"
 	params:
 		samples=units["sample"].tolist(),
 		units=units["unit"].tolist(),
-		ref=config["ref"]["index"]
+		#ref=config["ref"]["index"]
+		ref=config["ref"]["ref_gtf"],
+		option=" --stranded=no --type=transcript --quiet --mode=union --nonunique=all "
+	threads: 10
 	log:
-		"logs/counts/count_matrix_with_reps.log"
+		"logs/htseq-counts/htseq-counts.{sample}-{unit}.log"
 	conda:
-		"../envs/pandas.yaml"
-	script:
-		"../scripts/count-matrix-bams.py"
+		"../envs/htseq.yaml"
+	#script:
+	#	"../scripts/count-matrix-bams.py"
+	shell:
+		#"module load htseq; htseq-count --nprocesses={threads} {params.option} {input} {params.ref} > {output} 2> {log}"
+		"""
+		COMMAND=htseq-count --nprocesses=4 {params.option} {input} {params.ref} > {output} 2> {log}
+		echo $COMMAND
+		"""
 
 def get_deseq2_threads(wildcards=None):
 	# https://twitter.com/mikelove/status/918770188568363008
@@ -117,7 +126,7 @@ rule count_matrix:
 		"logs/counts/count_matrix_all.log"
 	shell:
 		"""
-		#module load R;
+		module load R;
 		Rscript scripts/count-matrix-all.R {input} {params} {output} {log}
 		"""
 
