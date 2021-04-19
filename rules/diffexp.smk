@@ -63,6 +63,31 @@ rule count_matrix_rRNA:
 	script:
 		"../scripts/count-matrix-bams.py"
 
+rule htseq_count:
+	input:
+		bam="results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+		bai="results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai",
+	output:
+		"results/htseq-counts/{sample}-{unit}.htseq-counts.tsv"
+	params:
+		samples=units["sample"].tolist(),
+		units=units["unit"].tolist(),
+		#ref=config["ref"]["index"]
+		ref=config["ref"]["ref_gtf"],
+		option=" --format=bam --stranded=no --type=transcript --idattr=gene_id --quiet --mode=union --nonunique=all "
+	log:
+		"logs/htseq-counts/htseq-counts.{sample}-{unit}.log"
+	conda:
+		"../envs/htseq.yaml"
+	#script:
+	#	"../scripts/count-matrix-bams.py"
+	shell:
+		"""
+		module load htseq;
+		htseq-count {params.option} {input.bam} {params.ref} > {output} 2> {log}
+		"""
+
+#need to rewrite this rule to collate htseq-count outputs to a single count by reps matrix
 rule count_matrix_with_reps:
 	input:
 		bams=np.unique(expand("results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam", sample=units["sample"],unit=units["unit"])).tolist(),
@@ -81,12 +106,11 @@ rule count_matrix_with_reps:
 	conda:
 		"../envs/htseq.yaml"
 	#script:
-	#	"../scripts/count-matrix-bams.py"
+		"../scripts/count-matrix-bams.py"
 	shell:
-		#"module load htseq; htseq-count --nprocesses={threads} {params.option} {input} {params.ref} > {output} 2> {log}"
 		"""
-		COMMAND=htseq-count --nprocesses=4 {params.option} {input} {params.ref} > {output} 2> {log}
-		echo $COMMAND
+		module load htseq;
+		htseq-count --nprocesses={threads} {params.option} {input} {params.ref} > {output} 2> {log}
 		"""
 
 def get_deseq2_threads(wildcards=None):
