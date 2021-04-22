@@ -56,7 +56,7 @@ rule htseq_count_spike_in:
 		units=units["unit"].tolist(),
 		#ref=config["ref"]["index"]
 		ref=config["ref"]["spike_in_gtf"],
-		option=" --format=bam --stranded=no --type=exon --idattr=exon_assignment --quiet --mode=union --nonunique=all "
+		option=" --format=bam --stranded=no --type=transcript --idattr=gene_id --quiet --mode=union --nonunique=all "
 	log:
 		"logs/htseq-counts_rRNA/htseq-counts.{sample}-{unit}.log"
 	conda:
